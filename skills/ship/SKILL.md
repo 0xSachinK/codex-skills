@@ -21,7 +21,7 @@ This skill coordinates four sub-skills and two existing skills:
 - **ship-ci** -- poll CI, diagnose failures, fix, and re-poll until green
 - **ship-coverage** -- identify coverage gaps, write tests, push until passing
 - **local-test-runner** -- execute local quality checks (typecheck, lint, test, build, coverage)
-- **codex-review-loop** -- trigger a final automated code review cycle
+- **ship-codex-review** -- trigger a final automated code review cycle
 - **verify-changes** -- compute readiness score from local verification results
 
 Refer to `references/orchestration-flow.md` for detailed phase transition rules,
@@ -202,17 +202,17 @@ Count this phase as 1 cycle against the global budget.
 
 ## 5. Phase 4: Final Codex Review
 
-Invoke the existing **codex-review-loop** skill for a final automated review
+Invoke the existing **ship-codex-review** skill for a final automated review
 of the entire PR diff.
 
 ### 5.1 Invocation
 
-Trigger one codex review cycle against the PR. Follow the codex-review-loop
+Trigger one codex review cycle against the PR. Follow the ship-codex-review
 skill's own invocation pattern, passing the PR number and repository context.
 
 ### 5.2 Triage Findings
 
-Process findings following the codex-review-loop pattern:
+Process findings following the ship-codex-review pattern:
 
 - **Critical findings** (bugs, security issues, data loss risks): fix
   immediately, commit, and push.
@@ -229,7 +229,7 @@ If critical findings required code changes:
 2. Loop back to Phase 2 (CI Green Loop) to verify the fixes did not break CI.
 3. Increment the global cycle counter by 1 for each loop-back.
 4. After CI is green, skip Phase 3 unless coverage was already a blocker.
-5. Do not re-invoke codex-review-loop after a loop-back to prevent infinite
+5. Do not re-invoke ship-codex-review after a loop-back to prevent infinite
    cycles.
 
 Count this phase as 1 cycle against the global budget.
@@ -365,7 +365,7 @@ Skip conditions:
 
 - Skip Phase 1 if the PR has no unresolved review comments.
 - Skip Phase 3 if the repository has no coverage gate configured in CI.
-- Skip Phase 4 if the codex-review-loop skill is not available.
+- Skip Phase 4 if the ship-codex-review skill is not available.
 - Never skip Phase 0, Phase 2, or Phase 5.
 
 ---

@@ -49,7 +49,7 @@ After the loop-back completes Phase 2:
 
 - Proceed to Phase 3 only if coverage was already a blocker from the first
   pass. Otherwise skip to Phase 5.
-- Never re-invoke Phase 4 (codex-review-loop) after a loop-back. This prevents
+- Never re-invoke Phase 4 (ship-codex-review) after a loop-back. This prevents
   infinite review cycles.
 
 ### 1.3 Transition Decision Matrix
@@ -319,13 +319,13 @@ authority.
 
 ### 6.1 Availability Check
 
-Before invoking, verify the codex-review-loop skill is available. If not,
-skip Phase 4 entirely. Log: "codex-review-loop skill not available. Skipping
+Before invoking, verify the ship-codex-review skill is available. If not,
+skip Phase 4 entirely. Log: "ship-codex-review skill not available. Skipping
 Phase 4." Do not charge a cycle.
 
 ### 6.2 Invocation
 
-Invoke the codex-review-loop skill following its own invocation pattern. Pass
+Invoke the ship-codex-review skill following its own invocation pattern. Pass
 the PR number and repository context. Request a single review cycle.
 
 ### 6.3 Finding Triage
